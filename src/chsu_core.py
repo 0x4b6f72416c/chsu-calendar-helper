@@ -19,11 +19,15 @@ def open_page(driver,group):
     try:
         cookie_button = driver.find_element_by_css_selector('.cookies-button')
         cookie_button.click()
-    except NoSuchElementException:  
-        pass        
+    except NoSuchElementException:
+        pass       
 # Group  
     driver.implicitly_wait(10)
-    driver.find_element_by_id('select2-groups-container').click()
+    try:
+        driver.find_element_by_id('select2-groups-container').click()
+    except NoSuchElementException:   
+        print('There is not such group') 
+        return 0 
     driver.implicitly_wait(3)
     enter = driver.find_element_by_css_selector('.select2-search__field')
     enter.send_keys(group)
@@ -64,9 +68,8 @@ def fill_list(self,list):
     
 
 
-def init(list):
-    print("Enter correctly your group")
-    group =input()
+def init():
+
 
     options = Options()
     chrome_options = Options()                              #
@@ -76,7 +79,6 @@ def init(list):
     chrome_driver = os.getcwd() + "\\chromedriver.exe"      #
 
     driver = selenium.webdriver.Chrome(chrome_options=chrome_options,executable_path=chrome_driver)
-    open_page(driver,group)
-    fill_list(driver,list)
-    driver.quit()
+    return driver 
+
 

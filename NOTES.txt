@@ -1,0 +1,7 @@
+
+# For next step
+	1. Rewrite module "chsu_core.py"
+		[USAGE] Beautiful Soup insted of selenium
+	2. Add more options for init a node of events
+		[USAGE] More then one month
+

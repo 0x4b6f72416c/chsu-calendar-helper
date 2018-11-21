@@ -1,4 +1,4 @@
-# The app speacially for thouse  who studing at "×ÃÓ" university
+# The app speacially for thouse  who studing at "CHSU" university
 
 
 # About

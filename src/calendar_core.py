@@ -20,14 +20,19 @@ def parser(day,time):
     return  [day+'T'+start,day+'T'+end]
 
 def event_delete(service):
-    
+
     with open('eventTable.txt','r')  as fb:
+
         node = fb.readline()
-        node=re.split(r'[:]\s*',node)
-        node.pop(0) 
-         
-        for event in node:
-            service.events().delete(calendarId='primary',eventId=event).execute()
+        if node:
+            node=re.split(r'[:]\s*',node) 
+            node.pop() 
+            print(" eventId:") 
+            for event in node:
+                service.events().delete(calendarId='primary',eventId=event).execute()
+                print("\t"+event)    
+        else:
+            print("Node list is empty")
 
 def event_maker(list, service):
     eventNode =''
@@ -43,7 +48,7 @@ def event_maker(list, service):
                 'end':{'dateTime':time[1]+'%s'%GMT_OFF}
                 }
             cur_event = service.events().insert(calendarId='primary',sendNotifications=False,body=event).execute()
-            eventNode+=':'+str(cur_event['id'])
+            eventNode+=str(cur_event['id'])+':'
 
     with open('eventTable.txt','w') as fd:
         fd.write(eventNode+'\n')
@@ -54,7 +59,7 @@ def init():
     store = file.Storage('token.json')
     creds = store.get()
     if not creds or creds.invalid:
-        flow = oauth2client.client.flow_from_clientsecres('credentials.json', url)
+        flow = oauth2client.client.flow_from_clientsecrets('credentials.json', url)
         creds = oauth2client.tools.run_flow(flow, store)
     service = googleapiclient.discovery.build('calendar', 'v3',http=creds.authorize(httplib2.Http()))
     
