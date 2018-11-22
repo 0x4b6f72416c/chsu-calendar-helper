@@ -1,19 +1,16 @@
-# The app speacially for thouse  who studing at "CHSU" university
+Chsu-calendar-helper
+About
+The app does coping lectures(time,audience,discepline) from the CHSU university page to your google calendar.
 
+Installation
+Python 3.x
+ChromeDriver 2.44
 
-# About
-	Current version enalbe you  copy lecture-table from chsu web-page
-	and push it to your calendar. The range is current day to last  day
-	of the month
-	Options:
-		reset last actions
-	
-	!
-# How to run 
+Required Dependencies Install
 
-For dealing with the app you have to
-	1.Have python3.x on your machine
-	2.Enable google calendar api
-	3.And to be sure that  you have a "credentials.json" file in working directory
-	4.Install "chromedriver.exe" and  put is  in  the src/ directory 
+cmd> pip install -r requirements.txt
+Download
+
+chromedriver: http://chromedriver.chromium.org/
+
 

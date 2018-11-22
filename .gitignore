@@ -1,0 +1,7 @@
+*~
+*.swp
+src/*.swp
+src/*.json
+src/__pycache__
+*.exe
+*Table*
