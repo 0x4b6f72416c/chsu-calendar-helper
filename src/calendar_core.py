@@ -6,7 +6,6 @@ import oauth2client
 from oauth2client import file
 import re
 
-
 def parser(day,time):
 
     day = day.replace(' ','')
@@ -34,22 +33,26 @@ def event_delete(service):
         else:
             print("Node list is empty")
 
-def event_maker(list, service):
+#data = [day,[t a b],[t1 a1 b1]]
+def event_maker(service,rq):
     eventNode =''
-    GMT_OFF='+03:00'
-    for day in range(0,len(list)):
-        for lecture_time in range(1,len(list[day])):
-            time = parser(list[day][0], list[day][lecture_time][0])
-            event = {
-                'summary':list[day][lecture_time][1],
-                'start':{'dateTime':time[0]+'%s'%GMT_OFF},
-                'location':list[day][lecture_time][2],
+    GMT_OFF ='+03:00'
+    while True:
+        data=rq.get()
+        if data == 'last':
+            break
+        else:
+            for i in range(1,len(data)):
+                time_this = parser(data[0],data[i][0]) 
+                event = {
+                'summary':data[i][1],
+                'start':{'dateTime':time_this[0]+'%s'%GMT_OFF},
+                'location':data[i][2],
                 'colorId':'1',
-                'end':{'dateTime':time[1]+'%s'%GMT_OFF}
+                'end':{'dateTime':time_this[1]+'%s'%GMT_OFF}
                 }
-            cur_event = service.events().insert(calendarId='primary',sendNotifications=False,body=event).execute()
-            eventNode+=str(cur_event['id'])+':'
-
+                cur_event = service.events().insert(calendarId='primary',sendNotifications=False,body=event).execute()
+                eventNode+=str(cur_event['id'])+':' 
     with open('eventTable.txt','w') as fd:
         fd.write(eventNode+'\n')
 

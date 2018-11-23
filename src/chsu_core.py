@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException
 from datetime import datetime 
 import selenium 
 import time 
@@ -27,7 +28,8 @@ def open_page(driver,group):
         driver.find_element_by_id('select2-groups-container').click()
     except NoSuchElementException:   
         print('There is not such group') 
-        return 0 
+        return False
+
     driver.implicitly_wait(3)
     enter = driver.find_element_by_css_selector('.select2-search__field')
     enter.send_keys(group)
@@ -43,10 +45,11 @@ def open_page(driver,group):
     except AttributeError:
         driver.find_element_by_link_text('28').click()
     driver.find_element_by_id('btTime').click()
-    return driver
+    
+    return True
 
 
-def fill_list(self,list):
+def fill_list(self,lq):
     j =0
     for cur_day in self.find_elements_by_class_name('head-day'):
         sub_list=[]
@@ -63,8 +66,9 @@ def fill_list(self,list):
                 lecture = [time,disc,aud]
             sub_list.append(lecture)
 
-        list.append(sub_list)
+        lq.put(sub_list)
         j=j+1
+    lq.put('last')
     
 
 
